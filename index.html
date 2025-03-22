@@ -1,0 +1,2012 @@
+<!-- Bottom Navigation for Mobile -->
+<div class="mobile-bottom-nav d-md-none">
+    <a href="#home" class="mobile-bottom-nav-item active" data-bs-toggle="tab">
+        <i class="bi bi-house-door"></i>
+        <span>Inicio</span>
+    </a>
+    <a href="#invitaciones" class="mobile-bottom-nav-item" data-bs-toggle="tab">
+        <i class="bi bi-envelope-plus"></i>
+        <span>Invitar</span>
+    </a>
+    <a href="#reportes" class="mobile-bottom-nav-item" data-bs-toggle="tab">
+        <i class="bi bi-pencil-square"></i>
+        <span>Reportes</span>
+    </a>
+    <a href="#beneficios" class="mobile-bottom-nav-item" data-bs-toggle="tab">
+        <i class="bi bi-star"></i>
+        <span>Beneficios</span>
+    </a>
+    <a href="#" class="mobile-bottom-nav-item" id="moreMenuBtn">
+        <i class="bi bi-three-dots"></i>
+        <span>Más</span>
+    </a>
+</div><!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ResidHub - Gestión de Invitaciones y Reportes</title>
+<!-- Bootstrap 5 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+<!-- Animate.css -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<!-- Custom CSS -->
+<style>
+    :root {
+        --primary-color: #4361EE;
+        --primary-light: #758BFD;
+        --secondary-color: #3A0CA3;
+        --success-color: #4CC9F0;
+        --warning-color: #F72585;
+        --danger-color: #FF006E;
+        --light-color: #F8F9FA;
+        --dark-color: #212529;
+        --surface-color: #ffffff;
+        --background-color: #F0F3FF;
+        --brand-gradient: linear-gradient(135deg, #4361EE 0%, #4CC9F0 100%);
+        --accent-gradient: linear-gradient(135deg, #F72585 0%, #7209B7 100%);
+        --neutral-gradient: linear-gradient(135deg, #B5C7FF 0%, #ECF1FF 100%);
+    }
+    
+    * {
+        transition: all 0.25s ease;
+    }
+    
+    body {
+        font-family: 'Poppins', sans-serif;
+        background-color: var(--background-color);
+        color: #444;
+        overflow-x: hidden;
+    }
+    
+    /* Navbar Styles */
+    .navbar {
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        background-color: rgba(255, 255, 255, 0.8);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+    }
+    
+    .navbar-brand {
+        font-weight: 700;
+        letter-spacing: 1px;
+        font-size: 1.5rem;
+        padding: 12px 0;
+        background: var(--brand-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        position: relative;
+    }
+    
+    .navbar-brand::after {
+        content: '';
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background: var(--warning-color);
+        border-radius: 50%;
+        bottom: 10px;
+        right: -15px;
+    }
+    
+    .navbar .nav-link {
+        font-weight: 500;
+        position: relative;
+        margin: 0 5px;
+    }
+    
+    .navbar .nav-link::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        background: var(--brand-gradient);
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        transition: width 0.3s ease;
+    }
+    
+    .navbar .nav-link:hover::after,
+    .navbar .nav-link.active::after {
+        width: 100%;
+    }
+    
+    /* Sidebar Styles */
+    .sidebar {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 100;
+        padding: 90px 0 0;
+        box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+        z-index: 99;
+        background-color: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+    
+    .sidebar-sticky {
+        height: calc(100vh - 90px);
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+    
+    .sidebar .nav-link {
+        font-weight: 500;
+        color: var(--dark-color);
+        padding: 0.75rem 1.25rem;
+        margin: 0.35rem 0.8rem;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+    }
+    
+    .sidebar .nav-link::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 4px;
+        height: 100%;
+        background: var(--brand-gradient);
+        transition: all 0.3s ease;
+        opacity: 0;
+    }
+    
+    .sidebar .nav-link:hover {
+        background-color: rgba(67, 97, 238, 0.05);
+        color: var(--primary-color);
+    }
+    
+    .sidebar .nav-link:hover::before {
+        opacity: 1;
+    }
+    
+    .sidebar .nav-link.active {
+        color: var(--primary-color);
+        background-color: rgba(67, 97, 238, 0.1);
+        box-shadow: 0 4px 20px rgba(67, 97, 238, 0.1);
+    }
+    
+    .sidebar .nav-link.active::before {
+        opacity: 1;
+    }
+    
+    .sidebar .nav-link i {
+        margin-right: 15px;
+        font-size: 1.2rem;
+    }
+    
+    /* Card Styles */
+    .dashboard-header {
+        background-color: var(--surface-color);
+        border-radius: 24px;
+        padding: 25px;
+        margin-bottom: 20px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .dashboard-header::before {
+        content: '';
+        position: absolute;
+        width: 150px;
+        height: 150px;
+        background: var(--neutral-gradient);
+        border-radius: 50%;
+        top: -75px;
+        right: -75px;
+        opacity: 0.6;
+        z-index: 0;
+    }
+    
+    .dashboard-header .content {
+        position: relative;
+        z-index: 1;
+    }
+    
+    .feature-card {
+        background-color: var(--surface-color);
+        border-radius: 20px;
+        padding: 25px 20px;
+        margin-bottom: 20px;
+        text-align: center;
+        transition: all 0.4s ease;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
+        position: relative;
+        overflow: hidden;
+        height: 100%;
+        cursor: pointer;
+    }
+    
+    .feature-card::before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 4px;
+        bottom: 0;
+        left: 0;
+        background: var(--brand-gradient);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.4s ease;
+    }
+    
+    .feature-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 30px rgba(67, 97, 238, 0.1);
+    }
+    
+    .feature-card:hover::before {
+        transform: scaleX(1);
+    }
+    
+    .feature-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 80px;
+        height: 80px;
+        border-radius: 20px;
+        background: var(--neutral-gradient);
+        color: var(--primary-color);
+        font-size: 2rem;
+        margin-bottom: 20px;
+        position: relative;
+        transition: all 0.3s ease;
+        transform: rotate(0deg);
+    }
+    
+    .feature-card:hover .feature-icon {
+        transform: rotate(5deg) scale(1.05);
+        box-shadow: 0 10px 25px rgba(67, 97, 238, 0.15);
+    }
+    
+    .notification-badge {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        background: var(--warning-color);
+        color: white;
+        border-radius: 12px;
+        padding: 2px 10px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        box-shadow: 0 4px 10px rgba(247, 37, 133, 0.3);
+        animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+        0% {
+            box-shadow: 0 0 0 0 rgba(247, 37, 133, 0.6);
+        }
+        70% {
+            box-shadow: 0 0 0 10px rgba(247, 37, 133, 0);
+        }
+        100% {
+            box-shadow: 0 0 0 0 rgba(247, 37, 133, 0);
+        }
+    }
+    
+    .ticket-card {
+        background-color: var(--surface-color);
+        border-radius: 16px;
+        padding: 20px;
+        margin-bottom: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border-left: 4px solid transparent;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .ticket-card:hover {
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        transform: translateX(5px);
+        border-left-color: var(--primary-color);
+    }
+    
+    .ticket-card .status-badge {
+        font-size: 0.75rem;
+        font-weight: 600;
+        padding: 0.35rem 0.8rem;
+        border-radius: 50px;
+        letter-spacing: 0.5px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+    
+    .status-badge.bg-success {
+        background: var(--success-color) !important;
+    }
+    
+    .card {
+        border: none;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+        transition: all 0.3s ease;
+    }
+    
+    .card:hover {
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+    }
+    
+    /* Form Styles */
+    .form-control, .form-select {
+        border-radius: 12px;
+        padding: 12px 15px;
+        border: 2px solid #ebedf5;
+        font-size: 0.95rem;
+        box-shadow: none;
+        transition: all 0.3s ease;
+    }
+    
+    .form-control:focus, .form-select:focus {
+        border-color: rgba(67, 97, 238, 0.4);
+        box-shadow: 0 5px 15px rgba(67, 97, 238, 0.1);
+    }
+    
+    .form-label {
+        font-weight: 500;
+        color: var(--dark-color);
+        margin-bottom: 8px;
+    }
+    
+    .input-group .btn {
+        border-radius: 0 12px 12px 0;
+        padding: 12px 15px;
+    }
+    
+    .form-check-input {
+        width: 20px;
+        height: 20px;
+        margin-top: 0.25rem;
+        border-radius: 6px;
+        border: 2px solid #ebedf5;
+        background-color: #fff;
+    }
+    
+    .form-check-input:checked {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+    }
+    
+    .form-check-label {
+        margin-left: 5px;
+        font-weight: 500;
+    }
+    
+    /* Button Styles */
+    .btn {
+        padding: 10px 20px;
+        border-radius: 12px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+    }
+    
+    .btn-primary {
+        background: var(--brand-gradient);
+        border: none;
+        box-shadow: 0 8px 15px rgba(67, 97, 238, 0.2);
+    }
+    
+    .btn-primary:hover {
+        box-shadow: 0 10px 20px rgba(67, 97, 238, 0.3);
+        transform: translateY(-2px);
+    }
+    
+    .btn-success {
+        background: var(--success-color);
+        border: none;
+        box-shadow: 0 8px 15px rgba(76, 201, 240, 0.2);
+    }
+    
+    .btn-success:hover {
+        background: var(--success-color);
+        box-shadow: 0 10px 20px rgba(76, 201, 240, 0.3);
+        transform: translateY(-2px);
+    }
+    
+    .btn-gradient {
+        background: var(--brand-gradient);
+        border: none;
+        color: white;
+        box-shadow: 0 8px 15px rgba(67, 97, 238, 0.2);
+    }
+    
+    .btn-gradient:hover {
+        box-shadow: 0 10px 20px rgba(67, 97, 238, 0.3);
+        transform: translateY(-2px);
+    }
+    
+    .btn-outline-primary {
+        color: var(--primary-color);
+        border: 2px solid var(--primary-color);
+        background: transparent;
+    }
+    
+    .btn-outline-primary:hover {
+        background: var(--primary-color);
+        color: white;
+        border-color: var(--primary-color);
+    }
+    
+    .btn-lg {
+        padding: 15px 25px;
+        font-size: 1rem;
+    }
+    
+    .btn-floating {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 8px 20px rgba(67, 97, 238, 0.2);
+    }
+    
+    .btn-floating i {
+        font-size: 1.3rem;
+    }
+    
+    .btn-floating:hover {
+        transform: translateY(-5px) rotate(5deg);
+        box-shadow: 0 15px 25px rgba(67, 97, 238, 0.3);
+    }
+    
+    /* Tab Styles */
+    .nav-tabs {
+        border-bottom: none;
+        margin-bottom: 20px;
+    }
+    
+    .nav-tabs .nav-item {
+        margin-right: 10px;
+    }
+    
+    .nav-tabs .nav-link {
+        border-radius: 50px;
+        border: none;
+        padding: 10px 20px;
+        font-weight: 600;
+        color: #666;
+        background-color: #f5f7ff;
+        transition: all 0.3s ease;
+    }
+    
+    .nav-tabs .nav-link:hover {
+        color: var(--primary-color);
+    }
+    
+    .nav-tabs .nav-link.active {
+        color: white;
+        background: var(--brand-gradient);
+        box-shadow: 0 5px 15px rgba(67, 97, 238, 0.2);
+    }
+    
+    .tab-content {
+        background-color: var(--surface-color);
+        border-radius: 20px;
+        padding: 25px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+    }
+    
+    /* Typography */
+    .user-greeting {
+        font-size: 2.5rem;
+        font-weight: 300;
+        color: #555;
+        margin-bottom: 0;
+    }
+    
+    .user-name {
+        font-size: 3.5rem;
+        font-weight: 700;
+        background: var(--brand-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 1.5rem;
+    }
+    
+    .section-title {
+        font-weight: 600;
+        color: var(--dark-color);
+        margin-bottom: 20px;
+        position: relative;
+        display: inline-block;
+    }
+    
+    .section-title::after {
+        content: '';
+        position: absolute;
+        width: 30%;
+        height: 4px;
+        background: var(--brand-gradient);
+        bottom: -8px;
+        left: 0;
+        border-radius: 2px;
+    }
+    
+    /* Animations */
+    .animate-hover {
+        transition: all 0.3s ease;
+    }
+    
+    .animate-hover:hover {
+        transform: translateY(-5px);
+    }
+    
+    .floating {
+        animation: floating 3s ease-in-out infinite;
+    }
+    
+    @keyframes floating {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+        100% { transform: translateY(0px); }
+    }
+    
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background: var(--primary-light);
+        border-radius: 10px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+        background: var(--primary-color);
+    }
+    
+    /* Responsive Styles */
+    /* Mobile Optimizations */
+    @media (max-width: 767.98px) {
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 85%;
+            height: 100%;
+            z-index: 1050;
+            background-color: white;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+            padding-top: 70px;
+        }
+        
+        .sidebar.show {
+            left: 0;
+        }
+        
+        .sidebar-sticky {
+            height: auto;
+            max-height: calc(100vh - 70px);
+        }
+        
+        .sidebar-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1040;
+            display: none;
+            transition: opacity 0.3s ease;
+            opacity: 0;
+        }
+        
+        .sidebar-backdrop.show {
+            display: block;
+            opacity: 1;
+        }
+        
+        .dashboard-content {
+            margin-left: 0 !important;
+            padding-left: 15px !important;
+            padding-right: 15px !important;
+        }
+        
+        .user-greeting {
+            font-size: 1.5rem;
+        }
+        
+        .user-name {
+            font-size: 2rem;
+        }
+        
+        .feature-card {
+            margin-bottom: 15px;
+            padding: 15px;
+        }
+        
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .mobile-nav-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            background-color: white;
+            z-index: 1030;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+        }
+        
+        .btn {
+            padding: 10px 15px;
+        }
+        
+        .btn-floating {
+            width: 46px;
+            height: 46px;
+        }
+        
+        .card {
+            margin-bottom: 15px;
+        }
+        
+        .card-body {
+            padding: 15px;
+        }
+        
+        /* Increase tap target sizes */
+        .nav-link, .btn, .form-control, .form-select {
+            min-height: 44px;
+            min-width: 44px;
+            display: flex;
+            align-items: center;
+        }
+        
+        /* Bottom navigation for mobile */
+        .mobile-bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: white;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+            z-index: 1030;
+        }
+        
+        .mobile-bottom-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            height: 100%;
+            color: #666;
+            text-decoration: none;
+            font-size: 0.7rem;
+            transition: all 0.2s ease;
+        }
+        
+        .mobile-bottom-nav-item i {
+            font-size: 1.2rem;
+            margin-bottom: 3px;
+        }
+        
+        .mobile-bottom-nav-item.active {
+            color: var(--primary-color);
+        }
+        
+        /* Add padding to main content to account for bottom nav */
+        main {
+            padding-bottom: 70px;
+        }
+        
+        /* Simplified cards for mobile */
+        .ticket-card, .feature-card {
+            border-radius: 12px;
+        }
+        
+        /* Fullscreen modals for forms on mobile */
+        .mobile-fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1050;
+            background-color: white;
+            overflow-y: auto;
+            padding: 15px;
+            display: none;
+        }
+        
+        .mobile-fullscreen.show {
+            display: block;
+        }
+        
+        .mobile-fullscreen-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 0;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+    }
+    
+    /* Cool Backgrounds */
+    .bg-pattern {
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .bg-pattern::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%234361ee' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+        z-index: -1;
+    }
+    
+    /* Glassmorphism */
+    .glass-card {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-radius: 20px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+    }
+</style>
+</head>
+<body>
+<!-- Header Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light fixed-top d-none d-md-flex">
+    <div class="container-fluid">
+        <a class="navbar-brand ms-2" href="#">Resid<span style="color: var(--success-color);">Hub</span></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#"><i class="bi bi-grid-1x2"></i> Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="bi bi-qr-code"></i> Mi QR</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="bi bi-bell"></i> Notificaciones
+                        <span class="position-absolute top-50 start-75 translate-middle badge rounded-pill" style="background: var(--warning-color);">1</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="bi bi-person-circle"></i> Perfil</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Mobile Header -->
+<div class="mobile-nav-header d-md-none">
+    <button class="btn btn-sm rounded-circle" id="sidebarToggle" aria-label="Menú">
+        <i class="bi bi-list fs-4"></i>
+    </button>
+    <div class="d-flex align-items-center">
+        <a class="navbar-brand mx-auto" href="#">Resid<span style="color: var(--success-color);">Hub</span></a>
+    </div>
+    <button class="btn btn-sm rounded-circle" aria-label="Notificaciones">
+        <i class="bi bi-bell fs-5"></i>
+        <span class="position-absolute top-0 end-0 translate-middle badge rounded-pill" style="background: var(--warning-color);">1</span>
+    </button>
+</div>
+
+<!-- Sidebar Backdrop -->
+<div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block sidebar">
+            <div class="position-sticky sidebar-sticky">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active animate-hover" href="#home" data-bs-toggle="tab">
+                            <i class="bi bi-house-door"></i> Inicio
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link animate-hover" href="#invitaciones" data-bs-toggle="tab">
+                            <i class="bi bi-envelope-plus"></i> Nueva Invitación
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link animate-hover" href="#misinvitaciones" data-bs-toggle="tab">
+                            <i class="bi bi-envelope"></i> Mis Invitaciones
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link animate-hover" href="#reportes" data-bs-toggle="tab">
+                            <i class="bi bi-pencil-square"></i> Reportes
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link animate-hover" href="#reservaciones" data-bs-toggle="tab">
+                            <i class="bi bi-clock"></i> Reservaciones
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link animate-hover" href="#directorio" data-bs-toggle="tab">
+                            <i class="bi bi-journal-text"></i> Directorio
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link animate-hover" href="#avisos" data-bs-toggle="tab">
+                            <i class="bi bi-bell"></i> Avisos
+                            <span class="notification-badge">1</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link animate-hover" href="#beneficios" data-bs-toggle="tab">
+                            <i class="bi bi-star"></i> Beneficios
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 pt-5 dashboard-content">
+            <!-- Mobile Title Bar -->
+            <div class="d-flex d-md-none align-items-center justify-content-between py-2 mb-3 mobile-title-bar">
+                <h1 class="mobile-title fs-4 mb-0">Inicio</h1>
+            </div>
+            <div class="tab-content mt-4">
+                <!-- Home Tab -->
+                <div class="tab-pane fade show active animate__animated animate__fadeIn" id="home">
+                    <div class="dashboard-header bg-pattern mb-4">
+                        <div class="content">
+                            <div class="mb-3 d-inline-block px-3 py-1 rounded-pill" style="background: rgba(67, 97, 238, 0.1);">
+                                <span class="d-flex align-items-center">
+                                    <i class="bi bi-house-heart me-2 text-primary"></i>
+                                    <span class="text-primary fw-bold">ResidHub</span>
+                                </span>
+                            </div>
+                            <p class="user-greeting mb-0 animate__animated animate__fadeInLeft">¡Hola</p>
+                            <h1 class="user-name animate__animated animate__fadeInLeft animate__delay-1s">ALEJANDRO!</h1>
+                            
+                            <div class="row mt-4">
+                                <div class="col-6 col-md-3 mb-3">
+                                    <div class="feature-card animate__animated animate__fadeInUp animate__delay-1s" onclick="document.querySelector('a[href=\'#invitaciones\']').click();">
+                                        <div class="feature-icon floating">
+                                            <i class="bi bi-envelope-plus"></i>
+                                        </div>
+                                        <h5>Nueva Invitación</h5>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3 mb-3">
+                                    <div class="feature-card animate__animated animate__fadeInUp animate__delay-2s" onclick="document.querySelector('a[href=\'#reservaciones\']').click();">
+                                        <div class="feature-icon floating">
+                                            <i class="bi bi-clock"></i>
+                                        </div>
+                                        <h5>Reservaciones</h5>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3 mb-3">
+                                    <div class="feature-card animate__animated animate__fadeInUp animate__delay-3s" onclick="document.querySelector('a[href=\'#reportes\']').click();">
+                                        <div class="feature-icon floating">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </div>
+                                        <h5>Reportes</h5>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3 mb-3">
+                                    <div class="feature-card animate__animated animate__fadeInUp animate__delay-4s" onclick="document.querySelector('a[href=\'#beneficios\']').click();">
+                                        <div class="feature-icon floating">
+                                            <i class="bi bi-star"></i>
+                                        </div>
+                                        <h5>Beneficios</h5>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3 mb-3">
+                                    <div class="feature-card animate__animated animate__fadeInUp animate__delay-4s" onclick="document.querySelector('a[href=\'#avisos\']').click();">
+                                        <div class="feature-icon floating">
+                                            <i class="bi bi-bell position-relative">
+                                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill" style="background-color: var(--warning-color)">1</span>
+                                            </i>
+                                        </div>
+                                        <h5>Avisos</h5>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3 mb-3">
+                                    <div class="feature-card animate__animated animate__fadeInUp animate__delay-5s" onclick="document.querySelector('a[href=\'#directorio\']').click();">
+                                        <div class="feature-icon floating">
+                                            <i class="bi bi-journal-text"></i>
+                                        </div>
+                                        <h5>Directorio</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card border-0 rounded-4 mb-4 animate__animated animate__fadeInUp animate__delay-5s">
+                                <div class="card-body p-4">
+                                    <h5 class="card-title fw-bold mb-3">Anuncios</h5>
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-grow-1">
+                                            <h6 class="mb-1">¿Tienes un negocio?</h6>
+                                            <p class="mb-0 text-muted">Participa en una dinámica gratuita para emprendedores en nuestra comunidad.</p>
+                                            <small class="text-muted">29 de mar. de 2025</small>
+                                        </div>
+                                        <button class="btn btn-gradient rounded-pill">Más info</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <div class="card border-0 rounded-4 h-100 animate__animated animate__fadeInLeft animate__delay-6s">
+                                <div class="card-body p-4">
+                                    <h5 class="card-title fw-bold mb-3">Mis últimos reportes</h5>
+                                    <div class="ticket-card" onclick="document.querySelector('a[href=\'#reportes\']').click();">
+                                        <div class="d-flex justify-content-between align-items-start">
+                                            <div>
+                                                <h6 class="mb-1">Ticket #22415</h6>
+                                                <p class="mb-0 text-muted">Falta de agua sanitarios piso 4</p>
+                                            </div>
+                                            <span class="badge status-badge">RESUELTO</span>
+                                        </div>
+                                    </div>
+                                    <div class="ticket-card" onclick="document.querySelector('a[href=\'#reportes\']').click();">
+                                        <div class="d-flex justify-content-between align-items-start">
+                                            <div>
+                                                <h6 class="mb-1">Ticket #18834</h6>
+                                                <p class="mb-0 text-muted">Fuga en E1</p>
+                                            </div>
+                                            <span class="badge status-badge">RESUELTO</span>
+                                        </div>
+                                    </div>
+                                    <div class="mt-3 text-center">
+                                        <button class="btn btn-sm btn-outline-primary rounded-pill" onclick="document.querySelector('a[href=\'#reportes\']').click();">Ver todos</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-4">
+                            <div class="card border-0 rounded-4 h-100 animate__animated animate__fadeInRight animate__delay-6s">
+                                <div class="card-body p-4">
+                                    <h5 class="card-title fw-bold mb-3">Próximas invitaciones</h5>
+                                    <div class="ticket-card" onclick="document.querySelector('a[href=\'#misinvitaciones\']').click();">
+                                        <div class="d-flex justify-content-between align-items-start">
+                                            <div>
+                                                <h6 class="mb-1">Miguel Ángel García</h6>
+                                                <p class="mb-0 text-muted">Hoy, 14:30 - 16:30</p>
+                                            </div>
+                                            <span class="badge bg-primary">Pendiente</span>
+                                        </div>
+                                    </div>
+                                    <div class="mt-3 text-center">
+                                        <button class="btn btn-sm btn-outline-primary rounded-pill" onclick="document.querySelector('a[href=\'#invitaciones\']').click();">Nueva invitación</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Invitaciones Tab -->
+                <div class="tab-pane fade animate__animated animate__fadeIn" id="invitaciones">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2 class="section-title">Nueva Invitación</h2>
+                    </div>
+                    
+                    <ul class="nav nav-tabs mb-3" id="invitacionesTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="individual-tab" data-bs-toggle="tab" data-bs-target="#individual" type="button" role="tab" aria-controls="individual" aria-selected="true">Individual</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="evento-tab" data-bs-toggle="tab" data-bs-target="#evento" type="button" role="tab" aria-controls="evento" aria-selected="false">Evento</button>
+                        </li>
+                    </ul>
+                    
+                    <div class="tab-content" id="invitacionesTabContent">
+                        <div class="tab-pane fade show active" id="individual" role="tabpanel" aria-labelledby="individual-tab">
+                            <form class="row g-3">
+                                <div class="col-md-12">
+                                    <label for="nombreVisitante" class="form-label">Nombre del visitante</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="nombreVisitante" required>
+                                        <button class="btn btn-gradient" type="button"><i class="bi bi-plus"></i></button>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label for="emailVisitante" class="form-label">Email (opcional)</label>
+                                    <input type="email" class="form-control" id="emailVisitante">
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label for="telefonoVisitante" class="form-label">Teléfono (opcional)</label>
+                                    <input type="tel" class="form-control" id="telefonoVisitante">
+                                </div>
+                                
+                                <div class="col-12">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="visitanteFrecuente">
+                                        <label class="form-check-label" for="visitanteFrecuente">
+                                            Visitante Frecuente
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label for="horaInicio" class="form-label">Hora Inicio</label>
+                                    <input type="datetime-local" class="form-control" id="horaInicio" value="2025-03-22T14:33">
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label for="horaFin" class="form-label">Hora Fin</label>
+                                    <input type="datetime-local" class="form-control" id="horaFin" value="2025-03-22T17:33">
+                                </div>
+                                
+                                <div class="col-12">
+                                    <label for="notas" class="form-label">Notas (opcional)</label>
+                                    <textarea class="form-control" id="notas" rows="3"></textarea>
+                                </div>
+                                
+                                <div class="col-12 mt-4">
+                                    <button type="submit" class="btn btn-gradient w-100 py-3 rounded-3">CREAR INVITACIÓN</button>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <div class="tab-pane fade" id="evento" role="tabpanel" aria-labelledby="evento-tab">
+                            <form class="row g-3">
+                                <div class="col-12">
+                                    <label for="nombreEvento" class="form-label">Nombre del evento</label>
+                                    <input type="text" class="form-control" id="nombreEvento" required>
+                                </div>
+                                
+                                <div class="col-md-12">
+                                    <label for="numeroInvitados" class="form-label">Número de invitados al evento</label>
+                                    <input type="number" class="form-control" id="numeroInvitados" value="10" min="1" max="100" required>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label for="horaInicioEvento" class="form-label">Hora Inicio</label>
+                                    <input type="datetime-local" class="form-control" id="horaInicioEvento" value="2025-03-22T14:33">
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label for="horaFinEvento" class="form-label">Hora Fin</label>
+                                    <input type="datetime-local" class="form-control" id="horaFinEvento" value="2025-03-22T17:33">
+                                </div>
+                                
+                                <div class="col-12">
+                                    <label for="notasEvento" class="form-label">Notas (opcional)</label>
+                                    <textarea class="form-control" id="notasEvento" rows="3"></textarea>
+                                </div>
+                                
+                                <div class="col-12">
+                                    <label for="listaInvitados" class="form-label">Lista Invitados</label>
+                                    <textarea class="form-control" id="listaInvitados" rows="5" placeholder="Agrega los nombres de los invitados, uno por línea"></textarea>
+                                </div>
+                                
+                                <div class="col-12 mt-4">
+                                    <button type="submit" class="btn btn-gradient w-100 py-3 rounded-3">CREAR INVITACIÓN</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Mis Invitaciones Tab -->
+                <div class="tab-pane fade animate__animated animate__fadeIn" id="misinvitaciones">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2 class="section-title">Mis Invitaciones</h2>
+                        <button class="btn btn-gradient btn-floating shadow-lg" onclick="document.querySelector('a[href=\'#invitaciones\']').click();">
+                            <i class="bi bi-plus"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <div class="card border-0 rounded-4 h-100 animate__animated animate__fadeInUp">
+                                <div class="card-body p-4">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <h5 class="card-title mb-0 fw-bold">Miguel Ángel García</h5>
+                                        <span class="badge bg-primary py-2 px-3 rounded-pill">Pendiente</span>
+                                    </div>
+                                    <p class="card-text text-muted mb-1"><i class="bi bi-calendar-event me-2"></i> 22 de mar. de 2025</p>
+                                    <p class="card-text text-muted mb-3"><i class="bi bi-clock me-2"></i> 14:30 - 16:30</p>
+                                    <p class="card-text mb-4">Visita para revisión de proyecto</p>
+                                    <div class="d-flex justify-content-between">
+                                        <button class="btn btn-outline-primary rounded-pill px-4"><i class="bi bi-qr-code me-2"></i> Ver QR</button>
+                                        <button class="btn btn-outline-danger rounded-pill px-4"><i class="bi bi-trash me-2"></i> Cancelar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-4">
+                            <div class="card border-0 rounded-4 h-100 animate__animated animate__fadeInUp animate__delay-1s">
+                                <div class="card-body p-4">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <h5 class="card-title mb-0 fw-bold">Laura Martínez</h5>
+                                        <span class="badge bg-secondary py-2 px-3 rounded-pill">Expirada</span>
+                                    </div>
+                                    <p class="card-text text-muted mb-1"><i class="bi bi-calendar-event me-2"></i> 9 de mar. de 2025</p>
+                                    <p class="card-text text-muted mb-3"><i class="bi bi-clock me-2"></i> 10:00 - 11:30</p>
+                                    <p class="card-text mb-4">Entrega de documentos</p>
+                                    <div class="d-flex justify-content-between">
+                                        <button class="btn btn-outline-primary rounded-pill px-4" disabled><i class="bi bi-qr-code me-2"></i> Ver QR</button>
+                                        <button class="btn btn-outline-secondary rounded-pill px-4"><i class="bi bi-arrow-repeat me-2"></i> Renovar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-4">
+                            <div class="card border-0 rounded-4 h-100 animate__animated animate__fadeInUp animate__delay-2s">
+                                <div class="card-body p-4">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <h5 class="card-title mb-0 fw-bold">Reunión equipo de proyecto</h5>
+                                        <span class="badge bg-primary py-2 px-3 rounded-pill">Pendiente</span>
+                                    </div>
+                                    <p class="card-text text-muted mb-1"><i class="bi bi-calendar-event me-2"></i> 25 de mar. de 2025</p>
+                                    <p class="card-text text-muted mb-3"><i class="bi bi-clock me-2"></i> 10:00 - 12:00</p>
+                                    <p class="card-text mb-1">Evento con 5 invitados</p>
+                                    <p class="card-text text-muted mb-4 small">Sala de juntas principal</p>
+                                    <div class="d-flex justify-content-between">
+                                        <button class="btn btn-outline-primary rounded-pill px-4"><i class="bi bi-people me-2"></i> Ver invitados</button>
+                                        <button class="btn btn-outline-danger rounded-pill px-4"><i class="bi bi-trash me-2"></i> Cancelar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Reportes Tab -->
+                <div class="tab-pane fade animate__animated animate__fadeIn" id="reportes">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2 class="section-title">Reportes</h2>
+                        <button class="btn btn-gradient btn-floating shadow-lg" id="crearReporteBtn">
+                            <i class="bi bi-plus"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="card border-0 rounded-4 mb-4 shadow-sm animate__animated animate__fadeInUp" id="reportesLista">
+                        <div class="card-body p-4">
+                            <button class="btn btn-gradient btn-lg w-100 mb-4 py-3 rounded-3" id="crearReporteBtn2">CREAR REPORTE</button>
+                            
+                            <h5 class="mb-3 fw-semibold">Histórico de reportes</h5>
+                            
+                            <div class="ticket-card animate__animated animate__fadeInUp">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <h5 class="mb-1 fw-bold">Ticket #22415</h5>
+                                        <p class="mb-0">Falta de agua sanitarios piso 4</p>
+                                    </div>
+                                    <div class="d-flex flex-column align-items-end">
+                                        <span class="text-muted mb-1">21 de oct. de 2024</span>
+                                        <span class="badge status-badge">RESUELTO</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="ticket-card animate__animated animate__fadeInUp animate__delay-1s">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <h5 class="mb-1 fw-bold">Ticket #18834</h5>
+                                        <p class="mb-0">Fuga en E1</p>
+                                    </div>
+                                    <div class="d-flex flex-column align-items-end">
+                                        <span class="text-muted mb-1">1 de may. de 2024</span>
+                                        <span class="badge status-badge">RESUELTO</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="ticket-card animate__animated animate__fadeInUp animate__delay-2s">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <h5 class="mb-1 fw-bold">Ticket #18603</h5>
+                                        <p class="mb-0">Luminaria fundida baño hombres...</p>
+                                    </div>
+                                    <div class="d-flex flex-column align-items-end">
+                                        <span class="text-muted mb-1">20 de abr. de 2024</span>
+                                        <span class="badge status-badge">RESUELTO</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Formulario de Nuevo Reporte (oculto inicialmente) -->
+                    <div class="card border-0 rounded-4 shadow-sm animate__animated animate__fadeIn" id="nuevoReporteForm" style="display: none;">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h4 class="fw-bold">Nuevo Reporte</h4>
+                                <button type="button" class="btn btn-outline-secondary rounded-circle" id="volverReportesBtn">
+                                    <i class="bi bi-arrow-left"></i>
+                                </button>
+                            </div>
+                            <form class="row g-3">
+                                <div class="col-12">
+                                    <label for="asuntoReporte" class="form-label">Asunto</label>
+                                    <input type="text" class="form-control" id="asuntoReporte" required>
+                                </div>
+                                
+                                <div class="col-12">
+                                    <label for="categoriaReporte" class="form-label">Categoría</label>
+                                    <select class="form-select" id="categoriaReporte" required>
+                                        <option selected>Administración</option>
+                                        <option>Mantenimiento</option>
+                                        <option>Limpieza</option>
+                                        <option>Seguridad</option>
+                                        <option>Otro</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="col-12">
+                                    <label for="descripcionReporte" class="form-label">Descripción</label>
+                                    <textarea class="form-control" id="descripcionReporte" rows="4" required></textarea>
+                                </div>
+                                
+                                <div class="col-12">
+                                    <label for="imagenesReporte" class="form-label">Agregar imágenes (opcional)</label>
+                                    <div class="d-flex justify-content-center gap-3 mb-3">
+                                        <button type="button" class="btn btn-outline-primary flex-grow-1 rounded-3"><i class="bi bi-camera me-2"></i> Cámara</button>
+                                        <button type="button" class="btn btn-outline-primary flex-grow-1 rounded-3"><i class="bi bi-images me-2"></i> Librería</button>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-12 mt-4">
+                                    <button type="submit" class="btn btn-gradient w-100 py-3 rounded-3">ENVIAR REPORTE</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <!-- Detalle de Reporte (oculto inicialmente) -->
+                    <div class="card border-0 rounded-4 shadow-sm animate__animated animate__fadeIn" id="detalleReporte" style="display: none;">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h4 class="fw-bold">Ticket #22415</h4>
+                                <div>
+                                    <button type="button" class="btn btn-outline-secondary rounded-circle me-2" id="volverDetalleBtn">
+                                        <i class="bi bi-arrow-left"></i>
+                                    </button>
+                                    <span class="badge status-badge px-4 py-2">RESUELTO</span>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4 p-3 rounded-4" style="background-color: rgba(76, 201, 240, 0.1);">
+                                <h5 class="text-muted mb-2">Asunto:</h5>
+                                <p class="mb-0 fs-5 fw-bold">Falta de agua sanitarios piso 4</p>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <h5 class="text-muted mb-2">Categoría:</h5>
+                                <p class="mb-0 badge px-3 py-2 rounded-pill" style="background-color: rgba(76, 201, 240, 0.2); color: var(--primary-color);">Mantenimiento</p>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <h5 class="text-muted mb-2">Descripción:</h5>
+                                <p class="mb-0 p-3 rounded-3" style="background-color: #f8f9fa;">Falta de agua en servicios de WC en el piso 4. No hay suministro desde hace aproximadamente 2 horas.</p>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <h5 class="text-muted mb-2">Comentarios:</h5>
+                                <div class="p-3 rounded-4 mb-3" style="background-color: #f8f9fa;">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <span class="fw-bold">Admin</span>
+                                        <small class="text-muted">22 de oct. de 2024</small>
+                                    </div>
+                                    <p class="mb-0">El problema ha sido resuelto. Se ha restaurado el suministro de agua en todos los baños del piso 4.</p>
+                                </div>
+                                <div class="p-3 rounded-4 mb-3" style="background-color: #f8f9fa;">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <span class="fw-bold">Admin</span>
+                                        <small class="text-muted">21 de oct. de 2024</small>
+                                    </div>
+                                    <p class="mb-0">Buenas tardes Alejandro, le doy seguimiento con mantenimiento. Gracias por su reporte.</p>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="agregarComentario" class="form-label">Agregar Comentario</label>
+                                    <textarea class="form-control mb-2 rounded-3" id="agregarComentario" rows="2"></textarea>
+                                    <button type="button" class="btn btn-gradient rounded-3 w-100">ENVIAR</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Reservaciones Tab -->
+                <div class="tab-pane fade animate__animated animate__fadeIn" id="reservaciones">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2 class="section-title">Reservaciones</h2>
+                    </div>
+                    
+                    <div class="card border-0 rounded-4 mb-4 animate__animated animate__fadeInUp">
+                        <div class="card-body p-4">
+                            <div class="row mb-4">
+                                <div class="col-md-6">
+                                    <label for="tipoEspacio" class="form-label">Tipo de espacio</label>
+                                    <select class="form-select rounded-pill" id="tipoEspacio">
+                                        <option selected>Sala de juntas</option>
+                                        <option>Área común</option>
+                                        <option>Terraza</option>
+                                        <option>Gimnasio</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="fechaReservacion" class="form-label">Fecha</label>
+                                    <input type="date" class="form-control rounded-pill" id="fechaReservacion" value="2025-03-22">
+                                </div>
+                            </div>
+                            
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th class="rounded-start-3">Hora</th>
+                                            <th class="rounded-end-3">Disponibilidad</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>8:00 - 9:00</td>
+                                            <td><button class="btn btn-outline-primary rounded-pill w-100">Disponible</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td>9:00 - 10:00</td>
+                                            <td><button class="btn btn-outline-primary rounded-pill w-100">Disponible</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td>10:00 - 11:00</td>
+                                            <td><button class="btn btn-danger rounded-pill w-100" disabled>Ocupado</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td>11:00 - 12:00</td>
+                                            <td><button class="btn btn-outline-primary rounded-pill w-100">Disponible</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td>12:00 - 13:00</td>
+                                            <td><button class="btn btn-outline-primary rounded-pill w-100">Disponible</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td>13:00 - 14:00</td>
+                                            <td><button class="btn btn-danger rounded-pill w-100" disabled>Ocupado</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4 class="mt-4 mb-3 section-title">Mis reservaciones</h4>
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <div class="card border-0 rounded-4 animate__animated animate__fadeInUp animate__delay-1s">
+                                <div class="card-body p-4">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div>
+                                            <h5 class="card-title fw-bold">Sala de juntas</h5>
+                                            <p class="card-text text-muted"><i class="bi bi-calendar-event me-2"></i> 24 de marzo, 2025</p>
+                                            <p class="card-text fw-semibold"><i class="bi bi-clock me-2"></i> 13:00 - 14:00</p>
+                                        </div>
+                                        <button class="btn btn-outline-danger rounded-pill"><i class="bi bi-x-lg me-1"></i> Cancelar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-4">
+                            <div class="card border-0 rounded-4 animate__animated animate__fadeInUp animate__delay-2s">
+                                <div class="card-body p-4">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div>
+                                            <h5 class="card-title fw-bold">Terraza</h5>
+                                            <p class="card-text text-muted"><i class="bi bi-calendar-event me-2"></i> 28 de marzo, 2025</p>
+                                            <p class="card-text fw-semibold"><i class="bi bi-clock me-2"></i> 18:00 - 20:00</p>
+                                        </div>
+                                        <button class="btn btn-outline-danger rounded-pill"><i class="bi bi-x-lg me-1"></i> Cancelar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Directorio Tab -->
+                <div class="tab-pane fade animate__animated animate__fadeIn" id="directorio">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2 class="section-title">Directorio</h2>
+                    </div>
+                    
+                    <div class="card border-0 rounded-4 mb-4 animate__animated animate__fadeInUp">
+                        <div class="card-body p-4">
+                            <div class="mb-4">
+                                <div class="input-group">
+                                    <span class="input-group-text border-0 bg-light" style="border-radius: 12px 0 0 12px;"><i class="bi bi-search"></i></span>
+                                    <input type="search" class="form-control border-0 bg-light" placeholder="Buscar contacto..." style="border-radius: 0 12px 12px 0;">
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <div class="card h-100 border-0 shadow-sm rounded-4 animate__animated animate__fadeInUp">
+                                        <div class="card-body p-4">
+                                            <div class="d-flex align-items-center">
+                                                <div class="rounded-circle d-flex align-items-center justify-content-center me-3 text-white" style="width: 50px; height: 50px; background: var(--brand-gradient);">
+                                                    <i class="bi bi-building"></i>
+                                                </div>
+                                                <div>
+                                                    <h5 class="card-title mb-1 fw-bold">Administración</h5>
+                                                    <p class="card-text mb-1 text-muted small"><i class="bi bi-envelope me-1"></i> administracion@residhub.com</p>
+                                                    <p class="card-text mb-0 text-muted small"><i class="bi bi-telephone me-1"></i> (55) 1234-5678</p>
+                                                </div>
+                                            </div>
+                                            <div class="mt-3 d-flex justify-content-end">
+                                                <button class="btn btn-sm btn-outline-primary rounded-pill me-2"><i class="bi bi-envelope"></i></button>
+                                                <button class="btn btn-sm btn-outline-success rounded-pill"><i class="bi bi-telephone"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <div class="card h-100 border-0 shadow-sm rounded-4 animate__animated animate__fadeInUp animate__delay-1s">
+                                        <div class="card-body p-4">
+                                            <div class="d-flex align-items-center">
+                                                <div class="rounded-circle d-flex align-items-center justify-content-center me-3 text-white" style="width: 50px; height: 50px; background: var(--brand-gradient);">
+                                                    <i class="bi bi-shield-check"></i>
+                                                </div>
+                                                <div>
+                                                    <h5 class="card-title mb-1 fw-bold">Seguridad</h5>
+                                                    <p class="card-text mb-1 text-muted small"><i class="bi bi-envelope me-1"></i> seguridad@residhub.com</p>
+                                                    <p class="card-text mb-0 text-muted small"><i class="bi bi-telephone me-1"></i> (55) 1234-5679</p>
+                                                </div>
+                                            </div>
+                                            <div class="mt-3 d-flex justify-content-end">
+                                                <button class="btn btn-sm btn-outline-primary rounded-pill me-2"><i class="bi bi-envelope"></i></button>
+                                                <button class="btn btn-sm btn-outline-success rounded-pill"><i class="bi bi-telephone"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <div class="card h-100 border-0 shadow-sm rounded-4 animate__animated animate__fadeInUp animate__delay-2s">
+                                        <div class="card-body p-4">
+                                            <div class="d-flex align-items-center">
+                                                <div class="rounded-circle d-flex align-items-center justify-content-center me-3 text-white" style="width: 50px; height: 50px; background: var(--brand-gradient);">
+                                                    <i class="bi bi-tools"></i>
+                                                </div>
+                                                <div>
+                                                    <h5 class="card-title mb-1 fw-bold">Mantenimiento</h5>
+                                                    <p class="card-text mb-1 text-muted small"><i class="bi bi-envelope me-1"></i> mantenimiento@residhub.com</p>
+                                                    <p class="card-text mb-0 text-muted small"><i class="bi bi-telephone me-1"></i> (55) 1234-5680</p>
+                                                </div>
+                                            </div>
+                                            <div class="mt-3 d-flex justify-content-end">
+                                                <button class="btn btn-sm btn-outline-primary rounded-pill me-2"><i class="bi bi-envelope"></i></button>
+                                                <button class="btn btn-sm btn-outline-success rounded-pill"><i class="bi bi-telephone"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <div class="card h-100 border-0 shadow-sm rounded-4 animate__animated animate__fadeInUp animate__delay-3s">
+                                        <div class="card-body p-4">
+                                            <div class="d-flex align-items-center">
+                                                <div class="rounded-circle d-flex align-items-center justify-content-center me-3 text-white" style="width: 50px; height: 50px; background: var(--brand-gradient);">
+                                                    <i class="bi bi-house-door"></i>
+                                                </div>
+                                                <div>
+                                                    <h5 class="card-title mb-1 fw-bold">Recepción</h5>
+                                                    <p class="card-text mb-1 text-muted small"><i class="bi bi-envelope me-1"></i> recepcion@residhub.com</p>
+                                                    <p class="card-text mb-0 text-muted small"><i class="bi bi-telephone me-1"></i> (55) 1234-5681</p>
+                                                </div>
+                                            </div>
+                                            <div class="mt-3 d-flex justify-content-end">
+                                                <button class="btn btn-sm btn-outline-primary rounded-pill me-2"><i class="bi bi-envelope"></i></button>
+                                                <button class="btn btn-sm btn-outline-success rounded-pill"><i class="bi bi-telephone"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Avisos Tab -->
+                <div class="tab-pane fade animate__animated animate__fadeIn" id="avisos">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2 class="section-title">Avisos</h2>
+                    </div>
+                    
+                    <div class="card border-0 rounded-4 bg-white mb-4 animate__animated animate__fadeInUp">
+                        <div class="card-body p-0">
+                            <div class="p-4 border-start border-danger border-4 rounded-4 mb-3 position-relative overflow-hidden animate__animated animate__fadeInUp">
+                                <div class="position-absolute top-0 end-0 p-2">
+                                    <span class="badge rounded-pill" style="background-color: var(--warning-color);">Nuevo</span>
+                                </div>
+                                <h5 class="card-title fw-bold">Mantenimiento programado</h5>
+                                <h6 class="card-subtitle mb-2 text-muted"><i class="bi bi-calendar-event me-2"></i> 21 de marzo, 2025</h6>
+                                <p class="card-text mt-3">Se realizará mantenimiento a los elevadores este fin de semana. Por favor utilice las escaleras de emergencia entre las 10:00 y 14:00 hrs.</p>
+                                <div class="mt-3">
+                                    <button class="btn btn-sm btn-outline-primary rounded-pill"><i class="bi bi-check-lg me-1"></i> Marcar como leído</button>
+                                </div>
+                            </div>
+                            
+                            <div class="p-4 rounded-4 mb-3 position-relative overflow-hidden animate__animated animate__fadeInUp animate__delay-1s" style="background-color: #f8f9fa;">
+                                <h5 class="card-title fw-bold">Evento comunitario</h5>
+                                <h6 class="card-subtitle mb-2 text-muted"><i class="bi bi-calendar-event me-2"></i> 15 de marzo, 2025</h6>
+                                <p class="card-text mt-3">Te invitamos al evento comunitario que se realizará en la terraza el próximo sábado a partir de las 18:00 hrs. Habrá música en vivo y actividades para todas las edades.</p>
+                                <div class="mt-3">
+                                    <button class="btn btn-sm btn-outline-primary rounded-pill"><i class="bi bi-calendar-check me-1"></i> Agregar a calendario</button>
+                                    <button class="btn btn-sm btn-outline-secondary rounded-pill ms-2"><i class="bi bi-share me-1"></i> Compartir</button>
+                                </div>
+                            </div>
+                            
+                            <div class="p-4 rounded-4 mb-3 position-relative overflow-hidden animate__animated animate__fadeInUp animate__delay-2s" style="background-color: #f8f9fa;">
+                                <h5 class="card-title fw-bold">Actualización de reglamento</h5>
+                                <h6 class="card-subtitle mb-2 text-muted"><i class="bi bi-calendar-event me-2"></i> 10 de marzo, 2025</h6>
+                                <p class="card-text mt-3">Se ha actualizado el reglamento interno. Los cambios principales incluyen horarios de uso de áreas comunes y políticas de estacionamiento para visitantes.</p>
+                                <div class="mt-3">
+                                    <button class="btn btn-sm btn-outline-primary rounded-pill"><i class="bi bi-file-earmark-text me-1"></i> Ver documento</button>
+                                </div>
+                            </div>
+                            
+                            <div class="p-4 rounded-4 position-relative overflow-hidden animate__animated animate__fadeInUp animate__delay-3s" style="background-color: #f8f9fa;">
+                                <h5 class="card-title fw-bold">Campaña de reciclaje</h5>
+                                <h6 class="card-subtitle mb-2 text-muted"><i class="bi bi-calendar-event me-2"></i> 5 de marzo, 2025</h6>
+                                <p class="card-text mt-3">Iniciamos campaña de reciclaje en el edificio. Se han instalado contenedores especiales en cada piso. Ayúdanos a cuidar el medio ambiente.</p>
+                                <div class="mt-3">
+                                    <button class="btn btn-sm btn-outline-primary rounded-pill"><i class="bi bi-info-circle me-1"></i> Más información</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Beneficios Tab -->
+                <div class="tab-pane fade animate__animated animate__fadeIn" id="beneficios">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2 class="section-title">Beneficios</h2>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="card border-0 rounded-4 h-100 overflow-hidden animate__animated animate__fadeInUp">
+                                <div class="position-relative">
+                                    <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" class="card-img-top" alt="Restaurante" style="height: 200px; object-fit: cover;">
+                                    <div class="position-absolute bottom-0 start-0 w-100 p-3" style="background: linear-gradient(0deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);">
+                                        <span class="badge status-badge px-3 py-2">15% DESCUENTO</span>
+                                    </div>
+                                </div>
+                                <div class="card-body p-4">
+                                    <h5 class="card-title fw-bold">Restaurante El Rincón</h5>
+                                    <p class="card-text">15% de descuento en consumo total presentando tu QR de ResidHub.</p>
+                                    <div class="d-flex justify-content-between align-items-center mt-3">
+                                        <span class="badge bg-success py-2 px-3 rounded-pill">Activo</span>
+                                        <button class="btn btn-sm btn-outline-primary rounded-pill"><i class="bi bi-geo-alt me-1"></i> Ver ubicación</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="card border-0 rounded-4 h-100 overflow-hidden animate__animated animate__fadeInUp animate__delay-1s">
+                                <div class="position-relative">
+                                    <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" class="card-img-top" alt="Gimnasio" style="height: 200px; object-fit: cover;">
+                                    <div class="position-absolute bottom-0 start-0 w-100 p-3" style="background: linear-gradient(0deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);">
+                                        <span class="badge status-badge px-3 py-2">20% DESCUENTO</span>
+                                    </div>
+                                </div>
+                                <div class="card-body p-4">
+                                    <h5 class="card-title fw-bold">Gimnasio FitLife</h5>
+                                    <p class="card-text">20% de descuento en membresía anual para residentes de nuestro complejo.</p>
+                                    <div class="d-flex justify-content-between align-items-center mt-3">
+                                        <span class="badge bg-success py-2 px-3 rounded-pill">Activo</span>
+                                        <button class="btn btn-sm btn-outline-primary rounded-pill"><i class="bi bi-geo-alt me-1"></i> Ver ubicación</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="card border-0 rounded-4 h-100 overflow-hidden animate__animated animate__fadeInUp animate__delay-2s">
+                                <div class="position-relative">
+                                    <img src="https://images.unsplash.com/photo-1545173168-9f1c6e67c956?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" class="card-img-top" alt="Lavandería" style="height: 200px; object-fit: cover;">
+                                    <div class="position-absolute bottom-0 start-0 w-100 p-3" style="background: linear-gradient(0deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);">
+                                        <span class="badge status-badge px-3 py-2">10% DESCUENTO</span>
+                                    </div>
+                                </div>
+                                <div class="card-body p-4">
+                                    <h5 class="card-title fw-bold">Lavandería Express</h5>
+                                    <p class="card-text">10% de descuento en servicio de lavado y planchado. Incluye recogida y entrega.</p>
+                                    <div class="d-flex justify-content-between align-items-center mt-3">
+                                        <span class="badge bg-success py-2 px-3 rounded-pill">Activo</span>
+                                        <button class="btn btn-sm btn-outline-primary rounded-pill"><i class="bi bi-geo-alt me-1"></i> Ver ubicación</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="card border-0 rounded-4 h-100 overflow-hidden animate__animated animate__fadeInUp animate__delay-3s">
+                                <div class="position-relative">
+                                    <img src="https://images.unsplash.com/photo-1493770348161-369560ae357d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" class="card-img-top" alt="Supermercado" style="height: 200px; object-fit: cover;">
+                                    <div class="position-absolute bottom-0 start-0 w-100 p-3" style="background: linear-gradient(0deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);">
+                                        <span class="badge status-badge px-3 py-2">5% DESCUENTO</span>
+                                    </div>
+                                </div>
+                                <div class="card-body p-4">
+                                    <h5 class="card-title fw-bold">Fresh Market</h5>
+                                    <p class="card-text">5% de descuento en todas tus compras y envío gratis en compras mayores a $500.</p>
+                                    <div class="d-flex justify-content-between align-items-center mt-3">
+                                        <span class="badge bg-success py-2 px-3 rounded-pill">Activo</span>
+                                        <button class="btn btn-sm btn-outline-primary rounded-pill"><i class="bi bi-geo-alt me-1"></i> Ver ubicación</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- Bootstrap Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Custom JavaScript -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Inicialización de tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+        
+        // Manejadores para mostrar/ocultar formularios en reportes
+        const crearReporteBtn = document.getElementById('crearReporteBtn');
+        const crearReporteBtn2 = document.getElementById('crearReporteBtn2');
+        const volverReportesBtn = document.getElementById('volverReportesBtn');
+        const volverDetalleBtn = document.getElementById('volverDetalleBtn');
+        const nuevoReporteForm = document.getElementById('nuevoReporteForm');
+        const detalleReporte = document.getElementById('detalleReporte');
+        const reportesLista = document.getElementById('reportesLista');
+        
+        // Función para mostrar el formulario de nuevo reporte
+        function mostrarNuevoReporte() {
+            reportesLista.style.display = 'none';
+            detalleReporte.style.display = 'none';
+            nuevoReporteForm.style.display = 'block';
+        }
+        
+        // Función para mostrar el detalle de reporte
+        function mostrarDetalleReporte() {
+            reportesLista.style.display = 'none';
+            nuevoReporteForm.style.display = 'none';
+            detalleReporte.style.display = 'block';
+        }
+        
+        // Función para volver a la lista de reportes
+        function mostrarListaReportes() {
+            nuevoReporteForm.style.display = 'none';
+            detalleReporte.style.display = 'none';
+            reportesLista.style.display = 'block';
+        }
+        
+        // Asignar eventos a botones
+        if (crearReporteBtn) {
+            crearReporteBtn.addEventListener('click', mostrarNuevoReporte);
+        }
+        
+        if (crearReporteBtn2) {
+            crearReporteBtn2.addEventListener('click', mostrarNuevoReporte);
+        }
+        
+        if (volverReportesBtn) {
+            volverReportesBtn.addEventListener('click', mostrarListaReportes);
+        }
+        
+        if (volverDetalleBtn) {
+            volverDetalleBtn.addEventListener('click', mostrarListaReportes);
+        }
+        
+        // Manejador para mostrar detalles de reportes
+        const ticketCards = document.querySelectorAll('.ticket-card');
+        ticketCards.forEach(card => {
+            card.addEventListener('click', function() {
+                // Solo mostrar detalle si estamos en la pestaña de reportes
+                if (document.querySelector('#reportes').classList.contains('active')) {
+                    mostrarDetalleReporte();
+                }
+            });
+        });
+        
+        // Inicialización de datos
+        const userData = {
+            name: 'ALEJANDRO',
+            appName: 'ResidHub',
+            notifications: 1,
+            invitations: [],
+            reports: [
+                {
+                    id: '22415',
+                    title: 'Falta de agua sanitarios piso 4',
+                    category: 'Mantenimiento',
+                    description: 'Falta de agua en servicios de WC',
+                    status: 'RESUELTO',
+                    date: '21 de oct. de 2024',
+                    comments: [
+                        {
+                            user: 'Admin',
+                            date: '22 de oct. de 2024',
+                            text: 'El problema ha sido resuelto. Se ha restaurado el suministro de agua.'
+                        },
+                        {
+                            user: 'Admin',
+                            date: '21 de oct. de 2024',
+                            text: 'Buenas tardes Alejandro, le doy seguimiento con mantenimiento. Gracias por su reporte.'
+                        }
+                    ]
+                },
+                {
+                    id: '18834',
+                    title: 'Fuga en E1',
+                    category: 'Mantenimiento',
+                    description: 'Se encuentra una fuga en estacionamiento E1, cerca de elevadores',
+                    status: 'RESUELTO',
+                    date: '1 de may. de 2024',
+                    comments: []
+                },
+                {
+                    id: '18603',
+                    title: 'Luminaria fundida baño hombres piso 4',
+                    category: 'Mantenimiento',
+                    description: 'Luminaria en cabina de wc se encuentra fundida en el baño de hombres de piso 4, torre 2.',
+                    status: 'RESUELTO',
+                    date: '20 de abr. de 2024',
+                    comments: [
+                        {
+                            user: 'Admin',
+                            date: '22 de abr. de 2024',
+                            text: 'Bien día, la luminaria ya fue reemplazada. Saludos.'
+                        },
+                        {
+                            user: 'Admin',
+                            date: '20 de abr. de 2024',
+                            text: 'Buenas tardes Alex le doy seguimiento con mantenimiento el día lunes muy temprano, agradezco tu reporte. Saludos'
+                        }
+                    ]
+                }
+            ]
+        };
+        
+        // Simulación de almacenamiento local
+        localStorage.setItem('residhubUserData', JSON.stringify(userData));
+        
+        // Manejadores para navegación móvil
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const sidebarBackdrop = document.getElementById('sidebarBackdrop');
+        const sidebar = document.getElementById('sidebar');
+        const moreMenuBtn = document.getElementById('moreMenuBtn');
+        const mobileBottomNavItems = document.querySelectorAll('.mobile-bottom-nav-item');
+        
+        // Función para abrir/cerrar el sidebar
+        function toggleSidebar() {
+            sidebar.classList.toggle('show');
+            sidebarBackdrop.classList.toggle('show');
+            document.body.classList.toggle('sidebar-open');
+        }
+        
+        // Asignar eventos para sidebar móvil
+        if (sidebarToggle) {
+            sidebarToggle.addEventListener('click', toggleSidebar);
+        }
+        
+        if (sidebarBackdrop) {
+            sidebarBackdrop.addEventListener('click', toggleSidebar);
+        }
+        
+        // Navegación móvil inferior
+        mobileBottomNavItems.forEach(item => {
+            item.addEventListener('click', function() {
+                mobileBottomNavItems.forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Si el sidebar está abierto, cerrarlo
+                if (sidebar.classList.contains('show')) {
+                    toggleSidebar();
+                }
+            });
+        });
+        
+        // Botón "Más" en navegación inferior
+        if (moreMenuBtn) {
+            moreMenuBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                toggleSidebar();
+            });
+        }
+        
+        // Cerrar sidebar al hacer clic en un enlace (móvil)
+        const sidebarLinks = document.querySelectorAll('.sidebar .nav-link');
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                if (window.innerWidth < 768 && sidebar.classList.contains('show')) {
+                    toggleSidebar();
+                }
+                
+                // Actualizar navegación inferior
+                const href = this.getAttribute('href');
+                mobileBottomNavItems.forEach(item => {
+                    if (item.getAttribute('href') === href) {
+                        mobileBottomNavItems.forEach(i => i.classList.remove('active'));
+                        item.classList.add('active');
+                    }
+                });
+            });
+        });
+        
+        // Actualizar altura del contenido principal en móvil
+        function updateMainContentHeight() {
+            if (window.innerWidth < 768) {
+                const mobileHeader = document.querySelector('.mobile-nav-header');
+                const mobileBottomNav = document.querySelector('.mobile-bottom-nav');
+                const headerHeight = mobileHeader ? mobileHeader.offsetHeight : 0;
+                const bottomNavHeight = mobileBottomNav ? mobileBottomNav.offsetHeight : 0;
+                
+                document.querySelector('main').style.paddingTop = headerHeight + 'px';
+                document.querySelector('main').style.paddingBottom = bottomNavHeight + 'px';
+            } else {
+                document.querySelector('main').style.paddingTop = '';
+                document.querySelector('main').style.paddingBottom = '';
+            }
+        }
+        
+        // Actualizar altura al cargar y al redimensionar
+        updateMainContentHeight();
+        window.addEventListener('resize', updateMainContentHeight);
+        
+        // Formularios
+        const formInvitacionIndividual = document.querySelector('#individual form');
+        if (formInvitacionIndividual) {
+            formInvitacionIndividual.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('¡Invitación creada con éxito!');
+                document.querySelector('a[href="#misinvitaciones"]').click();
+            });
+        }
+        
+        const formInvitacionEvento = document.querySelector('#evento form');
+        if (formInvitacionEvento) {
+            formInvitacionEvento.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('¡Evento creado con éxito!');
+                document.querySelector('a[href="#misinvitaciones"]').click();
+            });
+        }
+        
+        const formReporte = document.querySelector('#nuevoReporteForm form');
+        if (formReporte) {
+            formReporte.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('¡Reporte enviado con éxito! Ticket #34567');
+                mostrarListaReportes();
+            });
+        }
+        
+        // Mostrar la lista de reportes cuando se navega a la pestaña de reportes
+        const tabLinks = document.querySelectorAll('[data-bs-toggle="tab"]');
+        tabLinks.forEach(link => {
+            link.addEventListener('shown.bs.tab', function(event) {
+                // Mostrar la lista de reportes cuando se navega a la pestaña de reportes
+                if (event.target.getAttribute('href') === '#reportes') {
+                    mostrarListaReportes();
+                }
+                
+                // Actualizar título móvil
+                updateMobileTitle(event.target.textContent.trim());
+                
+                // Animaciones
+                const targetPane = document.querySelector(event.target.getAttribute('href'));
+                if (targetPane) {
+                    targetPane.classList.add('animate__animated', 'animate__fadeIn');
+                    setTimeout(() => {
+                        targetPane.classList.remove('animate__animated', 'animate__fadeIn');
+                    }, 500);
+                }
+            });
+        });
+        
+        // Función para actualizar título móvil
+        function updateMobileTitle(title) {
+            const mobileTitle = document.querySelector('.mobile-title');
+            if (mobileTitle && title) {
+                mobileTitle.textContent = title;
+            }
+        }
+        
+        // Optimizaciones para móvil
+        function applyMobileOptimizations() {
+            if (window.innerWidth < 768) {
+                // Reducir animaciones en móvil
+                document.querySelectorAll('.animate__delay-3s, .animate__delay-4s, .animate__delay-5s, .animate__delay-6s')
+                    .forEach(el => {
+                        el.classList.remove('animate__delay-3s', 'animate__delay-4s', 'animate__delay-5s', 'animate__delay-6s');
+                        el.classList.add('animate__delay-1s');
+                    });
+            }
+        }
+        
+        // Aplicar optimizaciones al cargar
+        applyMobileOptimizations();
+    });
+</script>
+</body>
+</html>
